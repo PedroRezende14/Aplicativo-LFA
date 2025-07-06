@@ -193,14 +193,19 @@ public class Main {
             "Uma gramática livre de contexto é definida por produções na forma A → α, onde:\n" +
             "• A é um símbolo não-terminal (variável)\n" +
             "• α é uma sequência de terminais e/ou não-terminais\n" +
-            "• Use 'ε' para representar a cadeia vazia"
+            "• Use 'ε' para representar a cadeia vazia \n"
+            
+            +"exemplos de produções \n"
+       		+"S -> (S)  | S -> aSb \n"
+       		+"S -> ()   | S -> ab \n"
+       		+"S -> SS   |"
+                              
         );
         infoText.setEditable(false);
         infoText.setOpaque(false);
         infoText.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         infoPanel.add(infoText, BorderLayout.CENTER);
 
-        // Painel central: Entrada de produções
         JPanel entradaPanel = new JPanel(new GridBagLayout());
         entradaPanel.setBorder(criarTitledBorder("➕ Adicionar Produções"));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -208,7 +213,6 @@ public class Main {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Lado esquerdo
         gbc.gridx = 0; gbc.gridy = 0;
         entradaPanel.add(new JLabel("Não-terminal:"), gbc);
         
@@ -217,14 +221,12 @@ public class Main {
         ladoEsquerdoField.setFont(new Font("Courier New", Font.BOLD, 14));
         entradaPanel.add(ladoEsquerdoField, gbc);
 
-        // Seta
         gbc.gridx = 2; gbc.gridy = 0;
         JLabel setaLabel = new JLabel("→");
         setaLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         setaLabel.setForeground(PRIMARY_COLOR);
         entradaPanel.add(setaLabel, gbc);
 
-        // Lado direito
         gbc.gridx = 3; gbc.gridy = 0;
         entradaPanel.add(new JLabel("Produção:"), gbc);
         
@@ -235,14 +237,12 @@ public class Main {
         ladoDireitoField.setFont(new Font("Courier New", Font.BOLD, 14));
         entradaPanel.add(ladoDireitoField, gbc);
 
-        // Botões
         gbc.gridx = 5; gbc.gridy = 0;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0;
         JButton adicionarProdButton = criarBotaoAcao("➕ Adicionar", SUCCESS_COLOR);
         entradaPanel.add(adicionarProdButton, gbc);
 
-        // Painel inferior: Controles
         JPanel controlesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         controlesPanel.setBorder(criarTitledBorder("🛠️ Controles"));
 
@@ -252,13 +252,11 @@ public class Main {
 
         controlesPanel.add(mostrarProducoesBtn);
         controlesPanel.add(limparProducoesBtn);
-//        controlesPanel.add(exemploBtn);
 
         panel.add(infoPanel, BorderLayout.NORTH);
         panel.add(entradaPanel, BorderLayout.CENTER);
         panel.add(controlesPanel, BorderLayout.SOUTH);
 
-        // Event Listeners
         adicionarProdButton.addActionListener(e -> {
             String esquerdo = ladoEsquerdoField.getText().trim();
             String direito = ladoDireitoField.getText().trim();
@@ -328,7 +326,16 @@ public class Main {
             "Um autômato de pilha é definido por transições na forma δ(q, a, X) = (p, α), onde:\n" +
             "• q é o estado atual, p é o próximo estado\n" +
             "• a é o símbolo lido da entrada (use 'ε' para transição vazia)\n" +
-            "• X é o símbolo no topo da pilha, α são os símbolos que substituem X"
+            "• X é o símbolo no topo da pilha, α são os símbolos que substituem X \n" 
+           
+            + "   Exemplos de um automato de pilha \n"
+            + "       (q0, a, Z) -> (q0, AZ)   | (q0, (, Z) -> (q0, XZ)\n"
+            + "       (q0, a, A) -> (q0, AA)   | (q0, (, X) -> (q0, XX)\n"
+            + "       (q0, c, A) -> (q1, A)    | (q0, ), X) -> (q0, ε)\n"
+            + "       (q1, b, A) -> (q1, ε)    | (q0, ε, Z) -> (q1, Z)\n"
+            + "       (q1, ε, Z) -> (q2, Z)    "
+            
+            
         );
         infoText.setEditable(false);
         infoText.setOpaque(false);
@@ -391,7 +398,6 @@ public class Main {
         JTextField destinoField = new JTextField(6);
         configPanel.add(destinoField, gbc);
 
-        // Linha 3 de transição
         gbc.gridy = 4;
         gbc.gridx = 0;
         configPanel.add(new JLabel("Novos Símbolos:"), gbc);
@@ -426,7 +432,7 @@ public class Main {
                 mostrarMensagem("Erro", "Nome do estado não pode estar vazio!", DANGER_COLOR);
                 return;
             }
-            
+
             Estado novoEstado = new EstadoImpl(nome);
             automato.adicionarEstado(novoEstado);
             logArea.append("✅ Estado adicionado: " + nome + "\n\n");
@@ -440,7 +446,7 @@ public class Main {
                 mostrarMensagem("Erro", "Nome do estado final não pode estar vazio!", DANGER_COLOR);
                 return;
             }
-            
+
             Estado estadoFinal = new EstadoImpl(nome);
             automato.adicionarEstadoFinal(estadoFinal);
             logArea.append("✅ Estado final adicionado: " + nome + "\n\n");
@@ -465,7 +471,7 @@ public class Main {
                 char simboloEntrada = entrada.isEmpty() ? 'ε' : entrada.charAt(0);
                 char simboloPilha = pilha.charAt(0);
                 Estado estadoDestino = new EstadoImpl(destino);
-                
+
                 char[] arrayNovosSimbolos;
                 if (novosSimbolos.isEmpty() || novosSimbolos.equals("ε")) {
                     arrayNovosSimbolos = new char[0];
@@ -473,14 +479,17 @@ public class Main {
                     arrayNovosSimbolos = novosSimbolos.toCharArray();
                 }
 
-                Transicao transicao = new TransicaoImpl(estadoOrigem, simboloEntrada, simboloPilha, 
-                                                       estadoDestino, arrayNovosSimbolos);
+                Transicao transicao = new TransicaoImpl(
+                    estadoOrigem, simboloEntrada, simboloPilha,
+                    estadoDestino, arrayNovosSimbolos
+                );
+
                 automato.adicionarTransicao(transicao);
 
-                logArea.append("✅ Transição adicionada: (" + origem + ", " + 
-                               (simboloEntrada == 'ε' ? "ε" : simboloEntrada) + ", " + simboloPilha + 
-                               ") → (" + destino + ", " + 
-                               (arrayNovosSimbolos.length == 0 ? "ε" : new String(arrayNovosSimbolos)) + ")\n\n");
+                logArea.append("✅ Transição adicionada: (" + origem + ", " +
+                        (simboloEntrada == 'ε' ? "ε" : simboloEntrada) + ", " + simboloPilha +
+                        ") → (" + destino + ", " +
+                        (arrayNovosSimbolos.length == 0 ? "ε" : new String(arrayNovosSimbolos)) + ")\n\n");
 
                 // Limpar campos
                 origemField.setText("");
@@ -488,13 +497,29 @@ public class Main {
                 pilhaField.setText("");
                 destinoField.setText("");
                 novosSimbolosField.setText("");
-                
+
                 tabbedPane.setSelectedIndex(3);
-                
             } catch (Exception ex) {
                 logArea.append("ERRO ao adicionar transição: " + ex.getMessage() + "\n\n");
                 tabbedPane.setSelectedIndex(3);
             }
+        });
+
+        // 👉 Corrigido: Listener para resetar o autômato
+        resetAutomatoBtn.addActionListener(e -> {
+            inicializarAutomato();
+            logArea.append("🔄 Autômato de pilha reinicializado.\n\n");
+
+            // Também pode-se limpar os campos de entrada, se quiser:
+            estadoField.setText("");
+            estadoFinalField.setText("");
+            origemField.setText("");
+            entradaField.setText("");
+            pilhaField.setText("");
+            destinoField.setText("");
+            novosSimbolosField.setText("");
+
+            tabbedPane.setSelectedIndex(3);
         });
 
         return panel;

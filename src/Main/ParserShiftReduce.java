@@ -174,7 +174,6 @@ public class ParserShiftReduce {
         return sb.toString();
     }
     
-    // Método para ser chamado pela sua interface principal
     public boolean processarCadeiaComReducao(String cadeia, StringBuilder logExterno) {
         boolean resultado = analisarCadeia(cadeia);
         logExterno.append(getLog());
