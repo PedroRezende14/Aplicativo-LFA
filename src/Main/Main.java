@@ -329,11 +329,13 @@ public class Main {
             "• X é o símbolo no topo da pilha, α são os símbolos que substituem X \n" 
            
             + "   Exemplos de um automato de pilha \n"
-            + "       (q0, a, Z) -> (q0, AZ)   | (q0, (, Z) -> (q0, XZ)\n"
-            + "       (q0, a, A) -> (q0, AA)   | (q0, (, X) -> (q0, XX)\n"
-            + "       (q0, c, A) -> (q1, A)    | (q0, ), X) -> (q0, ε)\n"
-            + "       (q1, b, A) -> (q1, ε)    | (q0, ε, Z) -> (q1, Z)\n"
-            + "       (q1, ε, Z) -> (q2, Z)    "
+            + "       (q0, a, Z) -> (q0, AZ)   | 	(q0,(, Z) → (q0, XZ) \n"
+            + "       (q0, a, A) -> (q0, AA)   | 	(q0,(, X) → (q0, XX) \n"
+            + "       (q0, c, A) -> (q1, A)    | 	(q0,), X) → (q1, ε)  \n"
+            + "       (q1, b, A) -> (q1, ε)    | 	(q1,(, X) → (q1, XX) \n"
+            + "       (q1, ε, Z) -> (q2, Z)    | 	(q1,(, Z) → (q1, XZ) \n"
+            + "       		(q1,), X) → (q1, ε) \n"
+            + "       		(q1,ε, Z) → (q2, Z) \n"
             
             
         );
@@ -583,7 +585,7 @@ public class Main {
 
         // Painel inferior: Exemplos
         JPanel exemplosPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        exemplosPanel.setBorder(criarTitledBorder("💡 Exemplos de Cadeias"));
+        exemplosPanel.setBorder(criarTitledBorder("💡 Exemplos de Cadeias para o shift-reduce"));
 
         String[] exemplos = {"aaabbb", "((()))", "acb"};
         for (String exemplo : exemplos) {
@@ -797,7 +799,8 @@ public class Main {
             • Acompanhe o log para debug
             
             
-        		DESENVOLVIDO POR: PEDRO REZENDE, MAGDIEL PRESTES E VICTOR 	
+        		DESENVOLVIDO POR: PEDRO REZENDE, MAGDIEL PRESTES E VICTOR MIGUEL
+        		Email para Contato: rezende.ifc@gmail.com
             """;
         
         JTextArea textArea = new JTextArea(ajuda);
